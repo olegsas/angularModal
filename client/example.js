@@ -3,7 +3,7 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibMo
   var $ctrl = this;
   $ctrl.items = ['item1', 'item2', 'item3'];
 
-  $ctrl.animationsEnabled = true;
+  $ctrl.animationsEnabled = true; // this is the way to set up the variables th eparameters
 
   $ctrl.open = function (size, parentSelector) {
     var parentElem = parentSelector ? 
@@ -31,9 +31,6 @@ angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibMo
     });
   };
 
-  $ctrl.toggleAnimation = function () {
-    $ctrl.animationsEnabled = !$ctrl.animationsEnabled;
-  };
 });
 
 // Please note that $uibModalInstance represents a modal window (instance) dependency.
