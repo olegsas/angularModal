@@ -1,82 +1,44 @@
-angular.module('ui.bootstrap.demo', ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-angular.module('ui.bootstrap.demo').controller('ModalDemoCtrl', function ($uibModal, $log, $document) {
-  var $ctrl = this;
-  $ctrl.items = ['item1', 'item2', 'item3'];
 
-  $ctrl.animationsEnabled = true; // this is the way to set up the variables th eparameters
 
-  $ctrl.open = function (size, parentSelector) {
-    var parentElem = parentSelector ? 
-      angular.element($document[0].querySelector('.modal-demo ' + parentSelector)) : undefined;
-    var modalInstance = $uibModal.open({
-      animation: $ctrl.animationsEnabled,
-      ariaLabelledBy: 'modal-title',
-      ariaDescribedBy: 'modal-body',
-      templateUrl: 'myModalContent.html',
-      controller: 'ModalInstanceCtrl',
-      controllerAs: '$ctrl',
-      size: size,
-      appendTo: parentElem,
-      resolve: {
-        items: function () {
-          return $ctrl.items;
-        }
-      }
-    });
+angular.module('demo1', ['bootstrapLightbox']);
 
-    modalInstance.result.then(function (selectedItem) {
-      $ctrl.selected = selectedItem;
-    }, function () {
-      $log.info('Modal dismissed at: ' + new Date());
-    });
+angular.module('demo1').controller('GalleryCtrl', function ($scope, Lightbox) {
+  $scope.images = [
+    {
+      'url': 'https://farm6.staticflickr.com/5830/20552523531_e1efec8d49_k.jpg',
+      'thumbUrl': 'https://farm6.staticflickr.com/5830/20552523531_ef720cd2f1_s.jpg',
+      'caption': 'This image has dimensions 2048x1519 and the img element is scaled to fit inside the window.'
+    },
+    {
+      'url': 'https://farm8.staticflickr.com/7300/12807911134_ff56d1fb3b_b.jpg',
+      'thumbUrl': 'https://farm8.staticflickr.com/7300/12807911134_ff56d1fb3b_s.jpg'
+    },
+    {
+      'url': 'https://farm1.staticflickr.com/400/20228789791_52fb84917f_b.jpg',
+      'thumbUrl': 'https://farm1.staticflickr.com/400/20228789791_52fb84917f_s.jpg',
+      'caption': 'The left and right arrow keys are binded for navigation. The escape key for closing the modal is binded by AngularUI Bootstrap.'
+    },
+    {
+      'url': 'https://farm1.staticflickr.com/260/20185156095_912c2714ef_b.jpg',
+      'thumbUrl': 'https://farm1.staticflickr.com/260/20185156095_912c2714ef_s.jpg'
+    },
+    {
+      'url': 'https://farm6.staticflickr.com/5757/20359334789_57316968ed_m.jpg',
+      'thumbUrl': 'https://farm6.staticflickr.com/5757/20359334789_57316968ed_s.jpg',
+      'caption': 'Default minimum modal dimensions (400x200) apply for this image (240x95).'
+    },
+    {
+      'url': 'https://farm1.staticflickr.com/359/18741723375_28c89372d7_c.jpg',
+      'thumbUrl': 'https://farm1.staticflickr.com/359/18741723375_28c89372d7_s.jpg'
+    },
+    {
+      'url': 'https://farm6.staticflickr.com/5606/15425945368_6f6ae945fc.jpg',
+      'thumbUrl': 'https://farm6.staticflickr.com/5606/15425945368_6f6ae945fc_s.jpg'
+    },
+    ];
+
+  $scope.openLightboxModal = function (index) {
+    Lightbox.openModal($scope.images, index);
   };
-
-});
-
-// Please note that $uibModalInstance represents a modal window (instance) dependency.
-// It is not the same as the $uibModal service used above.
-
-angular.module('ui.bootstrap.demo').controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
-  var $ctrl = this;
-  $ctrl.items = items;
-  $ctrl.selected = {
-    item: $ctrl.items[0]
-  };
-
-  $ctrl.ok = function () {
-    $uibModalInstance.close($ctrl.selected.item);
-  };
-
-  $ctrl.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
-});
-
-// Please note that the close and dismiss bindings are from $uibModalInstance.
-
-angular.module('ui.bootstrap.demo').component('modalComponent', {
-  templateUrl: 'myModalContent.html',
-  bindings: {
-    resolve: '<',
-    close: '&',
-    dismiss: '&'
-  },
-  controller: function () {
-    var $ctrl = this;
-
-    $ctrl.$onInit = function () {
-      $ctrl.items = $ctrl.resolve.items;
-      $ctrl.selected = {
-        item: $ctrl.items[0]
-      };
-    };
-
-    $ctrl.ok = function () {
-      $ctrl.close({$value: $ctrl.selected.item});
-    };
-
-    $ctrl.cancel = function () {
-      $ctrl.dismiss({$value: 'cancel'});
-    };
-  }
+    
 });
