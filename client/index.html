@@ -1,78 +1,58 @@
 <!doctype html>
-<html lang="en" >
+<html ng-app="ui.bootstrap.demo">
   <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="node_modules/ng-image-gallery/dist/ng-image-gallery.min.css">
-    <link rel="stylesheet" type="text/css" href="css/styles.css">
-    <link rel="stylesheet" href="css/style.css"> <!--we use it from the bootstrap gallery example-->
-
-    <script src="node_modules/angular/angular.min.js"></script>
-    <script src="node_modules/angular-animate/angular-animate.min.js"></script>
-    <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="node_modules/ng-image-gallery/dist/ng-image-gallery.min.js"></script>
-    <script src="node_modules/ng-file-upload/dist/ng-file-upload.min.js"></script>
-    <script src ="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" ></script> <!--we use it from the bootstrap gallery example-->
-    <script src = "app/script.js"></script> <!--we use it from the bootstrap gallery example-->
-
-    <script src="app/app.js"></script>
-
-    <script src="app/modules/home.js"></script>
-    <script src="app/modules/profile.js"></script>
-    <script src="app/modules/auth.js"></script>
-    <script src = "app/modules/checkbox.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-sanitize.js"></script>
+    <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.4.0.js"></script>
+    <script src="example.js"></script>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
   </head>
-  <body ng-app="app" ng-controller="AppCtrl">
+  <body>
 
-      <div class="container navbar navbar-default">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" ng-init="menuCollapsed = true"
-                  ng-click="menuCollapsed = ! menuCollapsed">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <div class="navbar-brand">
-            Picture-IT!
-          </div>
+<div ng-controller="ModalDemoCtrl as $ctrl" class="modal-demo">
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">I'm a modal!</h3>
         </div>
-        <div class="collapse navbar-collapse" collapse="isCollapsed">
-          <ul class="nav navbar-nav">
-            <li ui-sref-active="active">
-              <a href ui-sref="home">
-                <i class="fa fa-home"></i>
-                Home
-              </a>
-            </li>
-            <li ui-sref-active="active">
-              <a href ui-sref="profile">
-                Profile
-              </a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li ng-if="!authenticated" ui-sref-active="active">
-              <a href ui-sref="login">
-                <i class="fa fa-home"></i>
-                Login
-              </a>
-            </li>
-            <li ng-if="!authenticated" ui-sref-active="active">
-              <a href ui-sref="register">
-                Register
-              </a>
-            </li>
-            <li ng-if="authenticated" ui-sref-active="active">
-              <a href ng-click="logout()">
-                <i class="fa fa-home"></i>
-                Logout
-              </a>
-            </li>
-          </ul>
+        <div class="modal-body" id="modal-body">
+            <ul>
+                <li ng-repeat="item in $ctrl.items">
+                    <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
+                </li>
+            </ul>
+            Selected: <b>{{ $ctrl.selected.item }}</b>
         </div>
-      </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">OK</button>
+            <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="stackedModal.html">
+        <div class="modal-header">
+            <h3 class="modal-title" id="modal-title-{{name}}">The {{name}} modal!</h3>
+        </div>
+        <div class="modal-body" id="modal-body-{{name}}">
+            Having multiple modals open at once is probably bad UX but it's technically possible.
+        </div>
+    </script>
 
-      <div ui-view class="container slide"></div>
+    <button type="button" class="btn btn-default" ng-click="$ctrl.open()">Open me!</button>
+    <button type="button" class="btn btn-default" ng-click="$ctrl.open('lg')">Large modal</button>
+    <button type="button" class="btn btn-default" ng-click="$ctrl.open('sm')">Small modal</button>
+    <button type="button" 
+        class="btn btn-default" 
+        ng-click="$ctrl.open('sm', '.modal-parent')">
+            Modal appended to a custom parent
+    </button>
+    <button type="button" class="btn btn-default" ng-click="$ctrl.toggleAnimation()">Toggle Animation ({{ $ctrl.animationsEnabled }})</button>
+    <button type="button" class="btn btn-default" ng-click="$ctrl.openComponentModal()">Open a component modal!</button>
+    <button type="button" class="btn btn-default" ng-click="$ctrl.openMultipleModals()">
+        Open multiple modals at once 
+    </button>
+    <div ng-show="$ctrl.selected">Selection from a modal: {{ $ctrl.selected }}</div>
+    <div class="modal-parent">
+    </div>
+</div>
   </body>
 </html>
